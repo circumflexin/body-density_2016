@@ -1,0 +1,104 @@
+
+# Jags model script for estimating body density and diving gas volume of humpback whale
+# that is modified from: Jags model script for the lowest DIC model in "Body density and diving gas volume of 
+# the northern bottlenose whale (Hyperoodon ampullatus)" 2016. Journal of Experimental Biology
+# Saana Isojunno si66@st-andrews.ac.uk
+# 04/03/2016 
+
+
+# Required input data for each 5s glide segment:
+
+ # DswGG = sea water density
+ # whale.id = id number for each whale
+ # mean.speed = mean swim speed
+ # depth = mean depth
+ # dive.id = id number for each dive
+ # sin.pitch = sine of pitch angle
+ # tau = measured precision (1/variance) for glide acceleration
+ # a = acceleration
+
+
+## declare variables
+
+var 
+    
+    compr, CdAM.g, body.density.g, body.var, body.density[NW], Vair, Vair.var, Vair.d[NW];  #, tau[NW]
+    
+    model{
+    
+    ## CONSTANTS
+    
+    g <- 9.80665
+    pair <- 1.225 # air density at sea level, kg/m3
+    atmPa <- 101325 # conversion from pressure in atmospheres into Pascals
+    
+    ## PRIORS
+    
+    ## global parameters
+    
+      # compressibility      
+      compr ~ dunif(0.1, 0.7) # x10^(-9) Pa^(-1)
+
+      # mass-specific volume of air
+      Vair ~ dunif(5, 80)
+      Vair.SD ~ dunif(1e-06, 200)
+      Vair.var <- Vair.SD^2
+  
+      # CdAM
+      CdAM.g ~ dnorm(5, 0.25)T(1, 15)         #dnorm(mean, precision) in JAGS
+  
+      # body density
+      body.density.g ~ dunif(800, 1200)
+      body.SD ~ dunif(1e-06, 200)
+      body.var <- body.SD^2
+    
+
+    ## individual-specific parameters
+    
+    for(w in 1:NW) { # loop across individuals
+
+      # body density
+      body.shape[w] <- (body.density.g^2)/body.var 
+      body.rate[w] <- body.density.g/body.var
+      body.density[w] ~ dgamma(body.shape[w], body.rate[w])T(1e-06,)
+    
+      # Vair
+      Vair.shape[w] <- (Vair^2)/Vair.var 
+      Vair.rate[w] <- Vair/Vair.var
+      Vair.d[w] ~ dgamma(Vair.shape[w], Vair.rate[w])T(1e-06,)
+    
+    }
+    
+    
+    
+  ## THE MODEL
+    
+    for(j in 1:N) { # loop across data
+
+    
+      # Model for hydrodynamic performance
+
+      	# Term 1: Effect of drag on swim speed
+      	term1[j] <- -0.5*CdAM.g/(10^6)*DswGG[j]*mean.speed[j]^2     
+    
+	# Term 2: Non-gas body tissue density
+      	body.density.t[j] <- body.density[whale.id[j]]/(1-compr*(1+0.1*depth[j])*atmPa*10^(-9))
+      	term2[j] <- (DswGG[j]/body.density.t[j]-1)*g*sin.pitch[j]
+    
+	# Term 3: Gas per unit mass
+      	term3[j] <- Vair.d[whale.id[j]]/1000000*g*sin.pitch[j]*(DswGG[j]-pair*(1 + 0.1*depth[j]))*1/(1 + 0.1*depth[j])  
+    
+	# Modelled acceleration
+      	a.mu[j] <- term1[j] + term2[j] + term3[j]
+    
+
+      # Fitting modelled acceleration (a.mu) to data (a)
+
+	# assume observed acceleration values ('a') follow a normal distribution
+	# with a precision ('tau'= 1/variance) measured for each tag record
+
+	a[j] ~ dnorm(a.mu[j], tau[j])
+      
+    } 
+    
+    }
