@@ -5,7 +5,7 @@ This repository makes public the outputs of a 2016 workshop on methods to estima
 
 When using this software for academic research, please cite the following publications as appropriate, depending on the precise elements used.
 
-For the bayesian hydrodynamic modelling framework and the overall glide detection approach:
+For the bayesian hydrodynamic modelling framework and the overall body density estimation approach:
 
 Miller, P., Narazaki, T., Isojunno, S., Aoki, K., Smout, S. and Sato, K. (2016) ‘Correction: Body density and diving gas volume of the northern bottlenose whale ( Hyperoodon ampullatus )’, The Journal of Experimental Biology, 219(18), pp. 2962–2962. doi: 10.1242/jeb.148841.
 
