@@ -7,11 +7,11 @@ When using this software for academic research, please cite the following public
 
 For the bayesian hydrodynamic modelling framework and the overall body density estimation approach:
 
-Miller, P., Narazaki, T., Isojunno, S., Aoki, K., Smout, S. and Sato, K. (2016) ‘Correction: Body density and diving gas volume of the northern bottlenose whale ( Hyperoodon ampullatus )’, The Journal of Experimental Biology, 219(18), pp. 2962–2962. doi: 10.1242/jeb.148841.
+Miller, P., Narazaki, T., Isojunno, S., Aoki, K., Smout, S. and Sato, K. (2016) ‘Body density and diving gas volume of the northern bottlenose whale ( Hyperoodon ampullatus )’, The Journal of Experimental Biology, 219(18), pp. 2962–2962. doi: 10.1242/jeb.148841.
 
 For the magnetometer method of stroke / glide detection:
 
-Martín López, L. M., Miller, P. J. O. O., Aguilar de Soto, N., Johnson, M., López, L. M. M., Miller, P. J. O. O., De Soto, N. A., Johnson, M., Martin Lopez, L. M., Miller, P. J. O. O., Aguilar de Soto, N. and Johnson, M. (2015) ‘Gait switches in deep-diving beaked whales: biomechanical strategies for long-duration dives’, Journal of Experimental Biology, 218(9), pp. 1325–1338. doi: 10.1242/jeb.106013.
+Martín López, L. M., Miller, P. J. O. O., Aguilar de Soto, N., Johnson, M. (2015) ‘Gait switches in deep-diving beaked whales: biomechanical strategies for long-duration dives’, Journal of Experimental Biology, 218(9), pp. 1325–1338. doi: 10.1242/jeb.106013.
 
 for additional validation of this method:
 
